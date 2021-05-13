@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - name: Install vim
+      package: name=vim state=latest
+    - name: Check vim version
+      command: vim --version
+      register: ansibleVersion
+    - name: Print version
+      debug:
+        msg: "Vim Version: {{ ansibleVersion.stdout }}"

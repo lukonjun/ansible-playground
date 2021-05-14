@@ -1,0 +1,12 @@
+- hosts: master
+  tasks:
+    - name: List all files and directories in /etc
+      shell: ls /etc
+      register: dir_contents
+    - name: Print directory contents
+      debug:
+        msg: "{{ dir_contents.stdout_lines }}"
+    - name: Print directory contents using loops, as stdout_lines returns an array
+      debug:
+        msg: "{{ item }}"
+      loop: "{{ dir_contents.stdout_lines }}"

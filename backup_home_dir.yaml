@@ -1,0 +1,23 @@
+- hosts: master
+  tasks:
+    - name: ensure file exists
+      copy:
+        content: ""
+        dest: /root/empty.txt
+        force: no
+        group: root
+        owner: root
+        mode: 0755
+    - name: Get home directory /root contents
+      shell: ls /root
+      register: dir_contents
+    - name: Create a new directory /tmp/root
+      file:
+        path: /tmp/root 
+        state: directory
+    - name: Backup home directory /root to /tmp/root
+      copy:
+        src: /root/{{ item }}
+        dest: /tmp/root/
+        remote_src: True
+      loop: "{{ dir_contents.stdout_lines }}"

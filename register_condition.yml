@@ -1,0 +1,23 @@
+- hosts: master
+  tasks:
+    - name: Creates directory
+      file:
+        path: /tmp/folder
+        state: directory 
+    - name: List directory contents
+      shell: ls /tmp/folder
+      register: dir_contents
+    - name: display all register variables
+      debug:
+        msg: "{{ dir_contents }}" 
+    - name: Check if directory is empty
+      debug:
+        msg: "Directory is empty."
+      when: dir_contents.stdout == ""
+    - name: Check if directory is empty
+      debug:
+        msg: "Directory contains {{ dir_contents.stdout|length }} entries"
+    - name: Different way of checking if the Array is Empty
+      debug:
+        msg: "Directory is again empty."
+      when: "dir_contents.stdout|length == 0"

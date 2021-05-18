@@ -1,0 +1,17 @@
+- hosts: master
+  tasks:
+    - name: ensure file exists
+      shell: cat /imaginary/file
+      ignore_errors: True
+      register: output
+    - name: print register variables
+      debug: 
+        msg: "{{ output }}"
+    - name: print if failed
+      debug: 
+        msg: "{{ output.stdout }}"
+      when: output.failed is true
+    - name: Fail task when the return code is != 0
+      command: ls
+      register: command_result
+      failed_when: command_result.rc != 0

@@ -1,0 +1,23 @@
+- hosts: master
+  tasks:
+  - name: Create a directory if it does not exist
+    file:
+      path: /etc/fruits
+      state: directory
+      mode: '0755'
+  - name: copy files from localhost to remote 
+    copy:
+      src: "{{ item }}"
+      dest: /etc/fruits
+      owner: root
+      mode: 600
+    with_fileglob:
+      - test_files/*
+  - name: check whats in the directory
+    shell: ls /etc/fruits
+    register: shell_output
+  - name: print output
+    debug: 
+      msg: "This is a file {{ item }}"
+    loop: "{{ shell_output.stdout_lines }}"
+  

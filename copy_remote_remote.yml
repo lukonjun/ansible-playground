@@ -1,0 +1,43 @@
+- hosts: master01
+  tasks:
+  - name: Create a directory if it does not exist
+    file:
+      path: /etc/fruits
+      state: directory
+      mode: '0755'
+  - name: copy files from localhost to remote 
+    copy:
+      src: "{{ item }}"
+      dest: /etc/fruits
+      owner: root
+      mode: 600
+    with_fileglob:
+      - test_files/*
+
+- hosts: master01, worker01
+  become: yes
+  tasks:
+    - name: Fetch the file from the master to local
+      run_once: yes
+      fetch: "src=/etc/fruits/{{ item }} dest=buffer/ flat=yes"
+      when: inventory_hostname == 'master01'
+      loop: 
+      - apple.txt
+      - banana.txt
+      - peach.txt
+    - name: Copy the file from local to node
+      copy: "src=buffer/{{ item }} dest=/etc/fruits/"
+      when: inventory_hostname == 'worker01'
+      loop: 
+      - apple.txt
+      - banana.txt
+      - peach.txt
+    - name: ls /etc/fruits/
+      command: ls -lah /etc/fruits/
+      when: inventory_hostname == 'worker01'
+      register: output
+    - debug: "var=output.stdout"
+      when: inventory_hostname == 'worker01'
+    # Debug with line breaks
+    - debug: "var=output.stdout_lines"
+      when: inventory_hostname == 'worker01'

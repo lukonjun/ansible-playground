@@ -11,3 +11,7 @@ Run Playbook
 ```
 ansible-playbook copy_remote_remote.yml -i hosts.ini
 ```
+Run a Playbook from a certain position
+```
+ansible-playbook kubernetes-installation.yml -i ../hosts.ini --start-at-task="Move keadm bin"
+```

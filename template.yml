@@ -1,0 +1,12 @@
+- hosts: master
+  vars:
+    example_text: "Hello World"
+  tasks:
+    - name: Create a new directory /tmp/root
+      file:
+        path: /etc/scripts
+        state: directory
+    - name: A Jinja 2 template example
+      template:
+        src: templates/example_template.sh.j2
+        dest: /etc/scripts/echo.sh

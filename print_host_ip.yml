@@ -7,3 +7,6 @@
     - name: print register variables 2
       debug: 
         msg: "{{ inventory_hostname }}: {{ hostvars[groups['master'][0]]['ansible_default_ipv4']['address'] }}"
+    - name: print register variables 2
+      debug: 
+        msg: "{{ inventory_hostname }}: {{ hostvars[inventory_hostname].ansible_host }}"

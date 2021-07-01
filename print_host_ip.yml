@@ -1,0 +1,5 @@
+- hosts: all
+  tasks:
+    - name: print register variables
+      debug: 
+        msg: "{{ inventory_hostname }}: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"

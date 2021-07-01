@@ -1,5 +1,9 @@
 - hosts: all
   tasks:
+    # https://serverfault.com/questions/638507/how-to-access-host-variable-of-a-different-host-with-ansible
     - name: print register variables
       debug: 
         msg: "{{ inventory_hostname }}: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+    - name: print register variables 2
+      debug: 
+        msg: "{{ inventory_hostname }}: {{ hostvars[groups['master'][0]]['ansible_default_ipv4']['address'] }}"

@@ -3,6 +3,10 @@ Ansible adhoc command with ping
 ```
 ansible all -m ping -i hosts.ini
 ```
+Ansible adhoc command with command
+```
+ansible master -m command  -a "kubectl get nodes" -i host.ini
+```
 import public role
 ```
 ansible-galaxy install geerlingguy.docker
